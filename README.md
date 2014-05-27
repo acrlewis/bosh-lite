@@ -267,10 +267,17 @@ $ ./scripts/provision_cf
 
 1.  Deploy CF to bosh-lite
 
+
     ```
     bosh deployment manifests/cf-manifest.yml # This will be done for you by make_manifest_spiff
     bosh deploy
     # enter yes to confirm
+    # if you run into errors, try updating Spiff to the latest version (1.0 at time of writing). 
+    # brew install spiff --- for Mac users
+    # then rerun 
+    # ./scripts/make_manifest_spiff
+    # then rerun
+    # bosh deploy
     ```
 
 1.  Run the [cf-acceptance-tests](https://github.com/cloudfoundry/cf-acceptance-tests) against your new deployment to make sure it's working correctly.
@@ -296,8 +303,9 @@ $ ./scripts/provision_cf
 Install the [Cloud Foundry CLI](https://github.com/cloudfoundry/cli) and run the following:
 
 ```
-cf api http://api.10.244.0.34.xip.io
-cf auth admin admin
+cf target http://api.10.244.0.34.xip.io
+cf login admin --password admin
+cf create-space me
 cf create-org me
 cf target -o me
 cf create-space development
